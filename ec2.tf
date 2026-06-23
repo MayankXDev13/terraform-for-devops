@@ -3,11 +3,19 @@
 resource "aws_key_pair" "deployer" {
   key_name   = "terra-key-ec2"
   public_key = file("terra-key-ec2.pub")
+
+  tags = {
+    Environment = var.env
+  }
 }
 
 # VPC & Security Group
 
 resource "aws_default_vpc" "default" {
+
+  tags = {
+    Environment = var.env
+  }
 
 }
 
@@ -46,6 +54,9 @@ resource "aws_security_group" "my-sg" {
     description = "allow all traffic"
   }
 
+  tags = {
+    Environment = var.env
+  }
 
 
 }
@@ -55,7 +66,7 @@ resource "aws_security_group" "my-sg" {
 resource "aws_instance" "my-instance" {
   # count = 3 # meta argument
   for_each = tomap({
-    mayankxdev-micro  = "t2.micro",
+    mayankxdev-micro = "t2.micro",
   })
 
   depends_on             = [aws_security_group.my-sg, aws_key_pair.deployer]
@@ -71,7 +82,8 @@ resource "aws_instance" "my-instance" {
   }
 
   tags = {
-    Name = each.key
+    Name        = each.key
+    Environment = var.env
   }
 }
 
