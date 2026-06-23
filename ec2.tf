@@ -1,19 +1,29 @@
 # key pair
 
 resource "aws_key_pair" "deployer" {
-  key_name   = "terra-key-ec2"
+  key_name   = "terra-key-ec2-${var.env}"
   public_key = file("terra-key-ec2.pub")
+
+  tags = {
+    Name = "${var.env}-keypair"
+    Environment = var.env
+  }
 }
 
 # VPC & Security Group
 
 resource "aws_default_vpc" "default" {
 
+  tags = {
+    Name = "${var.env}-vpc"
+    Environment = var.env
+  }
+
 }
 
 
 resource "aws_security_group" "my-sg" {
-  name        = "automate-sg"
+  name        = "automate-sg-${var.env}"
   description = "security group to manage traffic to ec2 instances by terraform"
   vpc_id      = aws_default_vpc.default.id # interpolation expressions are used to reference other resource attributes, here we are referencing the id attribute of the default vpc
 
@@ -46,6 +56,11 @@ resource "aws_security_group" "my-sg" {
     description = "allow all traffic"
   }
 
+  tags = {
+    Name = "${var.env}-sg"
+    Environment = var.env
+  }
+
 
 
 }
@@ -74,7 +89,8 @@ resource "aws_instance" "my-instance" {
   }
 
   tags = {
-    Name = each.key
+    Name = "${var.env}-ec2"
+    Environment = var.env
   }
 }
 
