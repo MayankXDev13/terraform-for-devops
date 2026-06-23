@@ -53,14 +53,14 @@ resource "aws_security_group" "my-sg" {
 # ec2 instance
 
 resource "aws_instance" "my-instance" {
-  ami                    = "ami-0e5497a77ef21b5ac"
-  instance_type          = "t2.micro"
+  ami                    = var.ec2_ami_id
+  instance_type          = var.ec2_instance_type
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.my-sg.id]
 
   root_block_device {
-    volume_type = "gp3"
-    volume_size = 15
+    volume_type = var.ec2_root_volume_type
+    volume_size = var.ec2_root_storage_size
   }
 
   tags = {
