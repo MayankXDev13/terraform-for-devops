@@ -57,8 +57,8 @@ resource "aws_instance" "my-instance" {
   for_each = tomap({
     mayankxdev-micro  = "t2.micro",
     mayankxdev-medium = "t2.medium",
-    mayankxdev-large  = "t2.large",
-    mayankxdev-xlarge = "t2.xlarge"
+    # mayankxdev-large  = "t2.large",
+    # mayankxdev-xlarge = "t2.xlarge"
   })
 
   depends_on             = [aws_security_group.my-sg, aws_key_pair.deployer]
