@@ -53,19 +53,28 @@ resource "aws_security_group" "my-sg" {
 # ec2 instance
 
 resource "aws_instance" "my-instance" {
+  # count = 3 # meta argument
+  for_each = tomap({
+    mayankxdev-micro  = "t2.micro",
+    mayankxdev-medium = "t2.medium",
+    mayankxdev-large  = "t2.large",
+    mayankxdev-xlarge = "t2.xlarge"
+  })
+
+  depends_on             = [aws_security_group.my-sg, aws_key_pair.deployer]
   ami                    = var.ec2_ami_id
-  instance_type          = var.ec2_instance_type
+  instance_type          = each.value
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.my-sg.id]
   user_data              = file("install_nginx.sh") # user_data is file run when instance is starting for the first time
 
   root_block_device {
     volume_type = var.ec2_root_volume_type
-    volume_size = var.ec2_root_storage_size
+    volume_size = var.env == "prod" ? 20 : var.ec2_default_root_storage_size # terraform use ternary operator here
   }
 
   tags = {
-    Name = "mayankxdev"
+    Name = each.key
   }
 }
 
