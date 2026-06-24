@@ -70,7 +70,7 @@ resource "aws_instance" "my-instance" {
   instance_type          = var.ec2_instance_type
   key_name               = aws_key_pair.deployer.key_name
   vpc_security_group_ids = [aws_security_group.my-sg.id]
-  user_data              = file("install_nginx.sh") # user_data is file run when instance is starting for the first time
+  user_data              = file("infra-app/install_nginx.sh") # user_data is file run when instance is starting for the first time
 
   root_block_device {
     volume_type = "gp3"

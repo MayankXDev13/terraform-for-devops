@@ -1,10 +1,31 @@
 # dev infrastructure
 module "dev-infra" {
   source         = "./infra-app"
-  env            = var.env
-  bucket_name    = var.bucket_name
-  instance_count = var.instance_count
-  ec2_instance_type = var.ec2_instance_type
-  ec2_ami_id     = var.ec2_ami_id
-  hash_key       = var.hash_key
+  env            = "dev"
+  bucket_name    = "mayankxdev-infra-app-bucket"
+  instance_count = 1
+  ec2_instance_type = "t2.micro"
+  ec2_ami_id     = "ami-0e5497a77ef21b5ac"
+  hash_key       = "studentID"
+}
+
+
+module "prod-infra" {
+  source         = "./infra-app"
+  env            = "prod"
+  bucket_name    = "mayankxdev-infra-app-bucket"
+  instance_count = 2
+  ec2_instance_type = "t2.medium"
+  ec2_ami_id     = "ami-0e5497a77ef21b5ac"
+  hash_key       = "studentID"
+}
+
+module "stage-infra" {
+  source         = "./infra-app"
+  env            = "stage"
+  bucket_name    = "mayankxdev-infra-app-bucket"
+  instance_count = 1
+  ec2_instance_type = "t2.small"
+  ec2_ami_id     = "ami-0e5497a77ef21b5ac"
+  hash_key       = "studentID"
 }
