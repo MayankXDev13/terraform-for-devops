@@ -1,4 +1,5 @@
 # key pair
+/*
 
 resource "aws_key_pair" "deployer" {
   key_name   = "terra-key-ec2-${var.env}"
@@ -91,6 +92,8 @@ resource "aws_instance" "my-instance" {
     Environment = var.env
   }
 }
+
+*/
 
 
 

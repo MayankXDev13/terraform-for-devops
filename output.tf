@@ -67,27 +67,47 @@ output "ec2_ami_id" {
 
 
 output "ec2_public_ip" {
-  value       = {for k, v in aws_instance.my-instance : k => v.public_ip} # interpolation
-  description = "Public IP address of EC2 instance"
+  description = "Public IP address of EC2 instances"
+
+  value = {
+    for k, v in aws_instance.my_instance :
+    k => v.public_ip
+  }
 }
 
 output "ec2_public_dns" {
-  value       = {for k, v in aws_instance.my-instance : k => v.public_dns}
-  description = "Public DNS name of EC2 instance"
+  description = "Public DNS name of EC2 instances"
+
+  value = {
+    for k, v in aws_instance.my_instance :
+    k => v.public_dns
+  }
 }
 
 output "ec2_private_ip" {
-  value       = {for k, v in aws_instance.my-instance : k => v.private_ip}
-  description = "Private IP address of EC2 instance"
+  description = "Private IP address of EC2 instances"
+
+  value = {
+    for k, v in aws_instance.my_instance :
+    k => v.private_ip
+  }
 }
 
 output "ec2_private_dns" {
-  value       = {for k, v in aws_instance.my-instance : k => v.private_dns}
-  description = "Private DNS name of EC2 instance"
+  description = "Private DNS name of EC2 instances"
+
+  value = {
+    for k, v in aws_instance.my_instance :
+    k => v.private_dns
+  }
 }
 
 output "ec2_ami_id" {
-  value       = {for k, v in aws_instance.my-instance : k => v.ami}
-  description = "AMI ID of EC2 instance"
-} 
+  description = "AMI ID of EC2 instances"
+
+  value = {
+    for k, v in aws_instance.my_instance :
+    k => v.ami
+  }
+}
 
