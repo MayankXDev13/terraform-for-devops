@@ -1,7 +1,7 @@
 # key pair
 resource "aws_key_pair" "deployer" {
   key_name   = "${var.env}-infra-app-key"
-  public_key = file("terra-key-ec2.pub")
+  public_key = file("infra-app/terra-key-ec2.pub")
 
   tags = {
     Name        = "${var.env}-infra-app-key"
