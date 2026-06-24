@@ -13,14 +13,13 @@ module "eks" {
   subnet_ids                               = module.vpc.private_subnets
 
   addons = {
+    coredns = {}
+    eks-pod-identity-agent = {
+      before_compute = true
+    }
+    kube-proxy = {}
     vpc-cni = {
-      most_recent = true
-    }
-    kube-proxy = {
-      most_recent = true
-    }
-    coredns = {
-      most_recent = true
+      before_compute = true
     }
   }
 
@@ -30,7 +29,7 @@ module "eks" {
   # managing nodes in the cluster
   eks_managed_node_groups = {
     mayankxdev-cluster-ng = {
-      instance_types                        = ["t3.medium"]
+      instance_types                        = ["t3.medium", "t3.large"]
       attach_cluster_primary_security_group = true
       min_size                              = 2
       max_size                              = 3
